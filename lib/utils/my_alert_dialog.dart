@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 
@@ -16,7 +18,10 @@ class MyAlertDialog<T> extends StatelessWidget {
     this.content,
     this.contentPadding = const EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 24.0),
     this.actions,
+    required this.constraints,
     this.semanticLabel,
+    required this.shape,
+    required this.backgroundColor,
     this.divider = const Divider(
       height: 0.0,
     ),
@@ -28,6 +33,10 @@ class MyAlertDialog<T> extends StatelessWidget {
   ///
   /// Typically a [Text] widget.
   final Widget? title;
+
+  final ShapeBorder shape;
+  final Color backgroundColor;
+  final BoxConstraints constraints;
 
   /// Padding around the title.
   ///
@@ -153,6 +162,13 @@ class MyAlertDialog<T> extends StatelessWidget {
       dialogChild =
           new Semantics(namesRoute: true, label: label, child: dialogChild);
 
-    return new Dialog(child: dialogChild);
+    return Dialog(
+      child: ConstrainedBox(
+        child: dialogChild,
+        constraints: constraints,
+      ),
+      shape: shape,
+      backgroundColor: backgroundColor,
+    );
   }
 }

@@ -61,12 +61,15 @@ class CountryPickerDialog extends StatefulWidget {
   ///Widget to build list view item inside dialog
   final ItemBuilder? itemBuilder;
 
-  /// The (optional) horizontal separator used between title, content and
-  /// actions.
-  ///
-  /// If this divider is not provided a [Divider] is used with [height]
+  /// Background color of dialog
   /// property is set to 0.0
+  final Color backgroundColor;
+
+  /// The shape of the dialog
+  final ShapeBorder shape;
+
   final Widget divider;
+  final BoxConstraints constraints;
 
   /// The [divider] is not displayed if set to false. Default is set to false.
   final bool isDividerEnabled;
@@ -109,6 +112,9 @@ class CountryPickerDialog extends StatefulWidget {
     this.isSearchable = false,
     this.popOnPick = true,
     this.searchInputDecoration,
+    required this.backgroundColor,
+    required this.shape,
+    required this.constraints,
     this.searchCursorColor,
     this.searchEmptyView,
     this.searchFilter,
@@ -151,9 +157,12 @@ class SingleChoiceDialogState extends State<CountryPickerDialog> {
       title: _buildHeader(),
       contentPadding: widget.contentPadding,
       semanticLabel: widget.semanticLabel,
+      backgroundColor: widget.backgroundColor,
+      shape: widget.shape,
       content: _buildContent(context),
       isDividerEnabled: widget.isDividerEnabled,
       divider: widget.divider,
+      constraints: widget.constraints,
     );
   }
 
