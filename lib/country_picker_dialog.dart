@@ -1,9 +1,7 @@
 import 'package:country_pickers/country.dart';
 import 'package:country_pickers/utils/typedefs.dart';
-
 import 'package:country_pickers/utils/my_alert_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
 import 'countries.dart';
 
 ///Provides a customizable [Dialog] which displays all countries
@@ -94,8 +92,8 @@ class CountryPickerDialog extends StatefulWidget {
   ///Filters the country list for search
   final SearchFilter? searchFilter;
 
-  CountryPickerDialog({
-    Key? key,
+  const CountryPickerDialog({
+    super.key,
     required this.onValuePicked,
     this.title,
     this.titlePadding,
@@ -118,11 +116,11 @@ class CountryPickerDialog extends StatefulWidget {
     this.searchCursorColor,
     this.searchEmptyView,
     this.searchFilter,
-  }) : super(key: key);
+  });
 
   @override
   SingleChoiceDialogState createState() {
-    return new SingleChoiceDialogState();
+    return SingleChoiceDialogState();
   }
 }
 
@@ -141,8 +139,10 @@ class SingleChoiceDialogState extends State<CountryPickerDialog> {
     }
 
     if (widget.priorityList != null) {
-      widget.priorityList!.forEach((Country country) => _allCountries
-          .removeWhere((Country c) => country.isoCode == c.isoCode));
+      for (var country in widget.priorityList!) {
+        _allCountries
+          .removeWhere((Country c) => country.isoCode == c.isoCode);
+      }
       _allCountries.insertAll(0, widget.priorityList!);
     }
 
@@ -185,7 +185,7 @@ class SingleChoiceDialogState extends State<CountryPickerDialog> {
                 .toList(),
           )
         : widget.searchEmptyView ??
-            Center(
+            const Center(
               child: Text('No country found.'),
             );
   }
@@ -214,7 +214,7 @@ class SingleChoiceDialogState extends State<CountryPickerDialog> {
     return TextField(
       cursorColor: widget.searchCursorColor,
       decoration:
-          widget.searchInputDecoration ?? InputDecoration(hintText: 'Search'),
+          widget.searchInputDecoration ?? const InputDecoration(hintText: 'Search'),
       onChanged: (String value) {
         setState(() {
           _filteredCountries = _allCountries
