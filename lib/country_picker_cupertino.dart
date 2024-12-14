@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:country_pickers/countries.dart';
 import 'package:country_pickers/country.dart';
 import 'package:country_pickers/utils/typedefs.dart';
@@ -10,6 +11,12 @@ const double defaultPickerItemHeight = 32.0;
 
 /// Color of picker background
 const Color _kDefaultBackground = Color(0xFFD2D4DB);
+
+/// Border of the picker
+const Border _kDefaultBorder = Border();
+
+/// Margin of the picker
+const EdgeInsets _kDefaultMargin = EdgeInsets.all(0);
 
 // Eyeballed values comparing with a native picker.
 // Values closer to PI produces denser flatter lists.
@@ -64,6 +71,15 @@ class CountryPickerCupertino extends StatefulWidget {
   /// is mildly more efficient than using [Colors.transparent].
   final Color backgroundColor;
 
+  ///The border that is applied to the widget
+  final Border border;
+
+  ///The border radius that is applied to the country picker
+  final BorderRadius borderRadius;
+
+  ///The margin radius that is applied to the country picker
+  final EdgeInsets margin;
+
   /// {@macro flutter.rendering.wheelList.offAxisFraction}
   final double offAxisFraction;
 
@@ -92,6 +108,9 @@ class CountryPickerCupertino extends StatefulWidget {
     this.textStyle,
     this.diameterRatio = _kDefaultDiameterRatio,
     this.backgroundColor = _kDefaultBackground,
+    this.border = _kDefaultBorder,
+    this.borderRadius = BorderRadius.zero,
+    this.margin = _kDefaultMargin,
     this.offAxisFraction = 0.0,
     this.useMagnifier = false,
     this.magnification = 1.0,
@@ -163,22 +182,31 @@ class _CupertinoCountryPickerState extends State<CountryPickerCupertino> {
   }
 
   Widget _buildPicker() {
-    return CupertinoPicker(
-      scrollController: _scrollController,
-      itemExtent: widget.pickerItemHeight,
-      diameterRatio: widget.diameterRatio,
-      backgroundColor: widget.backgroundColor,
-      offAxisFraction: widget.offAxisFraction,
-      useMagnifier: widget.useMagnifier,
-      magnification: widget.magnification,
-      children: _countries
-          .map<Widget>((Country country) => widget.itemBuilder != null
-              ? widget.itemBuilder!(country)
-              : _buildDefaultItem(country))
-          .toList(),
-      onSelectedItemChanged: (int index) {
-        widget.onValuePicked(_countries[index]);
-      },
+    return Container(
+      decoration: BoxDecoration(
+        border: widget.border,
+        borderRadius: widget.borderRadius,
+        color:  widget.backgroundColor,
+      ),
+      padding: const EdgeInsets.all(6),
+      margin: widget.margin,
+      child: CupertinoPicker(
+        scrollController: _scrollController,
+        itemExtent: widget.pickerItemHeight,
+        diameterRatio: widget.diameterRatio,
+        backgroundColor: widget.backgroundColor,
+        offAxisFraction: widget.offAxisFraction,
+        useMagnifier: widget.useMagnifier,
+        magnification: widget.magnification,
+        children: _countries
+            .map<Widget>((Country country) => widget.itemBuilder != null
+            ? widget.itemBuilder!(country)
+            : _buildDefaultItem(country))
+            .toList(),
+        onSelectedItemChanged: (int index) {
+          widget.onValuePicked(_countries[index]);
+        },
+      ),
     );
   }
 

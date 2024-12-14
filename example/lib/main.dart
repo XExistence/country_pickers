@@ -340,6 +340,12 @@ class _HomePageState extends State<HomePage> {
               CountryPickerUtils.getCountryByIsoCode('TR'),
               CountryPickerUtils.getCountryByIsoCode('US'),
             ],
+            backgroundColor: Colors.black38,
+            shape: RoundedRectangleBorder(
+                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                side: BorderSide(width: 1, color: Colors.grey)),
+            constraints: const BoxConstraints(
+                minWidth: 280, maxWidth: 500, maxHeight: 800),
           ),
         ),
       );
@@ -349,6 +355,12 @@ class _HomePageState extends State<HomePage> {
         builder: (context) => Theme(
             data: Theme.of(context).copyWith(primaryColor: Colors.pink),
             child: CountryPickerDialog(
+                backgroundColor: Colors.black38,
+                shape: RoundedRectangleBorder(
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
+                    side: BorderSide(width: 1, color: Colors.grey)),
+                constraints: const BoxConstraints(
+                    minWidth: 280, maxWidth: 500, maxHeight: 800),
                 titlePadding: const EdgeInsets.all(8.0),
                 searchCursorColor: Colors.pinkAccent,
                 searchInputDecoration:
